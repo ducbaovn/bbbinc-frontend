@@ -1,0 +1,57 @@
+<script>
+    $(document).ready(function(){
+        $('.slider')._TMS({
+            show:0,
+            pauseOnHover:false,
+            prevBu:false,
+            nextBu:false,
+            playBu:false,
+            duration:1000,
+            preset:'fade',
+            pagination:true,//'.pagination',true,'<ul></ul>'
+            pagNums:false,
+            slideshow:8000,
+            numStatus:false,
+            banners:'fade',// fromLeft, fromRight, fromTop, fromBottom
+            waitBannerAnimation:false,
+            progressBar:false
+        })      
+    }) 
+</script>
+<div class="main">
+ 	<header> 
+   	<h1><a href="index.html"><img src="images/209x68.jpg" alt=""></a></h1> 
+ 	</header>  
+  <!--==============================content================================-->
+  <section id="content">
+  	<div class="header-block">
+      <nav class="nav-bg">  
+        <ul class="menu">
+          <li class="current"><a ng-href="#/home">Home</a></li>
+          <li><a ng-href="#/price">Stock Price</a></li>
+          <li><a ng-href="#/bbbfund/overview">BBB Fund</a></li>
+          <li><a ng-href="#/user/overview">Portfolio</a></li>
+          <li><a ng-href="#/contact">Contacts</a></li>
+        </ul>
+      </nav>	
+    </div>
+    <div id="slider" style="margin-left: 5px">
+	  	<div class="slider">
+      	<ul class="items">
+        	<li><img src="images/slider-1.jpg" alt="" /><div class="banner" style="top: 516px">Đầu tư cho tương lai<span>vun đắp từ hôm nay</span></div></li>
+        	<li><img src="images/slider-2.jpg" alt="" /><div class="banner">Bằng bản lĩnh và sự hiểu biết<span>của những con người trẻ</span></div></li>
+        	<li><img src="images/slider-3.jpg" alt="" /><div class="banner">BBB Fund - Đầu tư từ nguồn lực trí tuệ<span>và sự trợ giúp của công nghệ</span></div></li>
+      	</ul>
+	  	</div>
+		  <span class="slider-banner"><img src="images/slider-banner.png" alt=""></span>
+		</div>
+  	<div class="container_24 top-1">
+      	
+    </div>
+  </section> 
+<!--==============================footer=================================-->
+  <footer>
+      <p><strong>BBB INC</strong> <span>© 2015</span></p>
+      Website Template designed by <a href="http://www.templatemonster.com/" target="_blank" rel="nofollow" class="link">TemplateMonster.com</a>
+  </footer>	
+</div>

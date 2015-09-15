@@ -1,0 +1,147 @@
+<script src="/js/lib/Chart.js"></script>
+<script src="/js/lib/numeral.min.js"></script>
+
+
+<div class="main">
+  <header> 
+    <h1><a href="index.html"><img src="images/209x68.jpg" alt="BBB Fund"></a></h1> 
+  </header>  
+  <!--==============================content================================-->
+  <section id="content">
+    <div class="header-block">
+      <nav class="nav-bg">  
+        <ul class="menu">
+          <li><a ng-href="#/home">Home</a></li>
+          <li><a ng-href="#/price">Stock Price</a></li>
+          <li class="current"><a ng-href="#/bbbfund/overview">BBB Fund</a></li>
+          <li><a ng-href="#/user/overview">Portfolio</a></li>
+          <li><a ng-href="#/contact">Contact</a></li>
+        </ul>
+      </nav> 
+    </div>
+    <ul class="minimenu">
+      <li><a ng-href="#/bbbfund/overview">Overview</a></li>
+      <li><a ng-href="#/bbbfund/chart">Chart</a></li>
+      <li class="current"><a ng-href="#/bbbfund/portfolio">Portfolio</a></li>
+    </ul>
+    <div class="container_24 top-1">
+      <div class="grid_5">
+        <div class="overview">
+          <table width="100%">
+            <thead>
+              <tr><th colspan="2" style="font-size: 24px;"><span>BBB FUND</span><br><span style="font-size: 13px;">{{now}}</span></th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th class="th-left">Total</th>
+                <th class="th-right" id="bbb-asset">{{bbbfund.property.asset}} K</th>
+              </tr>
+              <tr>
+                <th class="th-left">Profit</th>
+                <th class="th-right" id="bbb-profit">{{bbbfund.dailyProfit}} K</th>
+              </tr>
+              <tr>
+                <th class="th-left">% Profit</th>
+                <th class="th-right" id="bbb-percent">{{bbbfund.dailyPercent}} %</th>
+                <!-- <th class="th-right percent" id="bbbpercent">%</th> -->
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="market">
+          <table class="table">
+            <thead><tr><th colspan="2" style=" font-size: 24px;"><span>VN Market</span></th></tr></thead>
+              <tr>
+                <th class="th-left">VN Index<br>{{vn.index}}</th>
+                <th class="th-right" id="vnindex">{{vn.percent}}<br>{{vn.change}}</th>
+                <th class="th-right percent" id="vnpercent">%<br></th>
+              </tr>
+            <tr>
+              <th class="th-left">VN30 Index<br>{{vn30.index}}</th>
+              <th class="th-right" id="vn30index">{{vn30.percent}}<br>{{vn30.change}}</th>
+              <th class="th-right percent" id="vn30percent">%<br></th>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="grid_19" style="padding-left: 20px">
+        <h2 class="myh2">BBB Fund Portfolio</h2>
+        <table border="1" class="bbbstock">
+          <tbody>
+            <tr>
+              <th>No.</th>
+              <th>Holding</th>
+              <th>Sharing</th>
+              <th>Price</th>
+              <th>Avg cost</th>
+              <th>Value</th>
+              <th>Payout</th>
+              <th>Profit<div class="btn-group" style="margin-left: 10px"><button type="button" class="btn btn-default" style="width: 25px;height: 20px; padding: 0; font-size: 11px" ng-click="showCash(true)">$</button><button type="button" class="btn btn-default" style="width: 25px;height: 20px; padding: 0; font-size: 11px" ng-click="showCash(false)">%</button>
+            </div></th>
+            </tr>
+            <tr ng-repeat="row in bbbfund.stock track by $index">
+              <td><div style="width: 20px;" ng-bind="$index+1"></div></td>
+              <td><div style="width: 50px;">{{row.stock.code}}</div></td>
+              <td><div style="width: 70px; text-align: right">{{row.qty}}</div></td>
+              <td><div style="width: 60px; text-align: right" ng-class="{gt: 'gain-value', lt: 'lose-value'}[compare(row.price, row.avgPrice)]">{{row.price}}</div></td>
+              <td><div style="width: 60px; text-align: right">{{row.avgPrice}}</div></td>
+              <td><div style="width: 130px; text-align: right"><strong>{{row.total}}</strong></div></td>
+              <td><div style="width: 70px; text-align: right">{{row.payout}}</div></td>
+              <td><div style="width: 100px; text-align: right" ng-class="{gt: 'gain-value', lt: 'lose-value'}[compare(row.profit, '0')]">{{row.toggle}}</div></td>
+            </tr>
+          </tbody>
+        </table>
+        <div ng-show="isAdmin">
+          <div class="grid_19 subsection" style="width: 730px">
+            <div class="subsection-title">
+              Stock Exchange
+            </div>
+            <table border="0" class="exchange">
+              <tbody>
+                <tr>
+                  <th>Holding</th>
+                  <th>Shares</th>
+                  <th>Cost per share</th>
+                  <th>Total</th>
+                  <th>Fee/Tax</th>
+                  <th>Delete</th>
+                </tr>
+                <tr ng-repeat="row in listExchange track by $index">
+                  <td><input type="text" style="width: 60px;" ng-model="row.code" ng-change="filter(true, row.code)" ng-blur="filter(false)"></td>
+                  <td><input type="text" style="width: 80px;" ng-model="row.qty" ng-change="row.total = row.qty * row.cost; row.fee = row.total * 0.0035"></td>
+                  <td><input type="text" style="width: 100px;" ng-model="row.price" ng-change="row.total = row.qty * row.price; row.fee = row.total * 0.0035"></td>
+                  <td><input type="text" style="width: 140px;" ng-model="row.total"></td>
+                  <td><input type="text" style="width: 80px;" ng-model="row.fee"></td>
+                  <td><a ng-click="removeStock($index)"><img src="images/remove.png"></a></td>
+                </tr>
+                <tr ng-repeat="stock in stocks | filter:{code:searchText}" ng-show="showFilter">
+                  <td colspan="6">{{ stock.code + ' - ' + stock.name }}</td>
+                </tr>
+                <tr>
+                  <td colspan="6"><a ng-click="addStock()"><img src="images/add.png" alt="more"> Add more</a><input class="btn btn-default exchange-btn" value="Buy" ng-click="exchange.buy()"><input class="btn btn-default exchange-btn" value="Sell"ng-click="exchange.sell()"><input class="btn btn-success exchange-btn" value="Payout" ng-click="exchange.payout()"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="grid_19 subsection" style="width: 730px">
+            <div class="subsection-title">
+              Cash Flow
+            </div>
+            <div>
+              <div class="cash">Total Asset: {{bbbfund.property.asset}}</div>
+              <div class="cash">Cash: {{bbbfund.property.cash}}</div>
+              <div class="cash">Capital: {{bbbfund.property.capital}}</div>
+            </div>
+            <input type="text" style="width: 160px;" ng-model="cash"><input class="btn btn-danger cash-btn" value="Deposit" ng-click="exchange.deposit()"><input class="btn btn-success cash-btn" value="Cash"ng-click="exchange.cash()">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section> 
+<!--==============================footer=================================-->
+  <footer>
+    <p><strong>BBB INC</strong> <span>© 2015</span></p>
+    Website Template designed by <a href="http://www.templatemonster.com/" target="_blank" rel="nofollow" class="link">TemplateMonster.com</a>
+  </footer>
+
+</div>

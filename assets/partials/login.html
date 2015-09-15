@@ -1,0 +1,135 @@
+<div class="main">
+  <header> 
+    <h1><a href="index.html"><img src="images/209x68.jpg" alt="BBB Fund"></a></h1> 
+  </header>  
+  <!--==============================content================================-->
+  <section id="content">
+    <div class="header-block">
+      <nav class="nav-bg">  
+        <ul class="menu">
+          <li><a ng-href="#/home">Home</a></li>
+          <li><a ng-href="#/price">Stock Price</a></li>
+          <li class="current"><a ng-href="#/bbbfund/overview">BBB Fund</a></li>
+          <li><a ng-href="#/user/overview">PORTFOLIO</a></li>
+          <li><a ng-href="#/contact">CONTACT</a></li>
+        </ul>
+      </nav> 
+    </div>
+    <ul class="minimenu2">
+      <li class="current"><a ng-href="#/login">Login</a></li>
+      <li><a ng-href="#/user/overview">Overview</a></li>
+      <li><a ng-href="#/user/chart">Chart</a></li>
+      <li><a ng-href="#/user/account">Account</a></li>
+    </ul>
+    <div class="container_24 top-1">
+      <div class="grid_5">
+        <div class="overview">
+          <table>
+            <thead><tr><th colspan="2" style="font-size: 24px;"><span></span></th></tr></thead>
+            <tbody>
+              <tr>
+                <th class="th-left">Total</th>
+                <th class="th-right"></th>
+              </tr>
+              <tr>
+                <th class="th-left">Profit</th>
+                <th class="th-right"></th>
+              </tr>
+              <tr>
+                <th class="th-left">% Profit</th>
+                <th class="th-right"></th>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="market">
+          <table class="table">
+            <thead><tr><th colspan="2" style=" font-size: 24px;"><span>VN Market</span></th></tr></thead>
+              <tr>
+                <th class="th-left">VN Index<br></th>
+                <th class="th-right"><br></th>
+              </tr>
+            <tr>
+              <th class="th-left">VN30 Index<br></th>
+              <th class="th-right"><br></th>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="grid_19" style="padding-left: 20px">
+      </div>
+      <span class="mask1" ng-click="cancelLogin()"></span>
+      <div id="login-page">
+        <form class="form-login" name="loginForm">
+          <h2 class="form-login-heading">sign in now</h2>
+          <div class="login-wrap">
+            <input type="text" class="form-control" placeholder="Username" ng-model="user.name" name="username" required="">
+            <br>
+            <div ng-show="loginForm.$submitted || loginForm.username.$touched">
+              <div ng-show="loginForm.username.$error.required" class="login-error">Please fill in username</div>
+            </div>
+            <input type="password" class="form-control" placeholder="Password" ng-model="user.password" name="password" required="">
+            <div ng-show="loginForm.$submitted || loginForm.password.$touched">
+              <div ng-show="loginForm.password.$error.required" class="login-error">Please fill in password</div>
+            </div>
+            <label class="checkbox">
+              <span class="pull-right">
+                <a data-toggle="modal" href="login.html#myModal"> Forgot Password?</a>
+              </span>
+            </label>
+            <button class="btn btn-theme btn-block" type="submit" ng-click="login()"><i class="fa fa-lock"></i> SIGN IN</button>
+            <hr> 
+            <div class="login-social-link centered">
+            <p>or you can sign in via your social network</p>
+              <button class="btn btn-facebook" type="button" onclick="location.href='http://localhost:1337/auth/facebook'"><i class="fa fa-facebook"></i> Facebook</button>
+              <button class="btn btn-danger" style="width: 91px" type="button" onclick="location.href='http://localhost:1337/auth/google'"><i class="fa fa-google"></i> Google</button>
+            </div>
+            <div class="registration">
+              Don't have an account yet?<br>
+              <a class="" ng-click="showSignup()">
+                  Create an account
+              </a>
+            </div>
+          </div>
+        </form>
+        <form class="form-login" id="form-signup" style="display: none" name="signupForm">
+          <h2 class="form-login-heading">sign up now</h2>
+          <div class="login-wrap">
+            Username: <input type="text" class="form-control" placeholder="Username" ng-model="user.name" name="username" required="">
+            <br>
+            <div ng-show="signupForm.$submitted || signupForm.username.$touched">
+              <div ng-show="loginForm.username.$error.required" class="login-error">Please fill in Username</div>
+            </div>
+            Password: <input type="password" class="form-control" placeholder="Password" ng-model="user.password" name="password" required="">
+            <div ng-show="signupForm.$submitted || signupForm.password.$touched">
+              <div ng-show="loginForm.password.$error.required" class="login-error">Please fill in Password</div>
+            </div>
+            Repassword: <input type="password" class="form-control" placeholder="Re-Password" ng-model="user.repassword" name="repassword" required="">
+            <div ng-show="signupForm.$submitted || signupForm.repassword.$touched">
+              <div ng-show="signupForm.repassword.$error.required" class="login-error">Please fill in Repassword</div>
+              <div ng-show="user.password!=user.repassword" class="login-error">Password and Repassword are not matched</div>
+            </div>
+            Email: <input type="email" class="form-control" placeholder="Email" ng-model="user.mail" name="mail" required="">
+            <div ng-show="signupForm.$submitted || signupForm.mail.$touched">
+              <div ng-show="signupForm.mail.$error.required" class="login-error">Please fill in Email</div>
+              <div ng-show="signupForm.mail.$error.email" class="login-error">Invalid Email</div>
+            </div>
+            <button class="btn btn-theme btn-block" type="submit" ng-click="signup()"><i class="fa fa-lock"></i> SIGN UP</button>
+            <hr>
+            <div class="registration">
+              Already have an account<br>
+              <a class="" ng-click="showLogin()">
+                  Back to login
+              </a>
+            </div> 
+          </div>
+      </div>  
+    </div>
+  </section> 
+<!--==============================footer=================================-->
+  <footer>
+    <p><strong>BBB INC</strong> <span>© 2015</span></p>
+    Website Template designed by <a href="http://www.templatemonster.com/" target="_blank" rel="nofollow" class="link">TemplateMonster.com</a>
+  </footer>
+
+</div>

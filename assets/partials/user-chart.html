@@ -1,0 +1,130 @@
+<script src="/js/lib/Chart.js"></script>
+<script src="/js/lib/numeral.min.js"></script>
+<div class="main">
+  <header> 
+    <h1><a href="index.html"><img src="images/209x68.jpg" alt=""></a></h1> 
+  </header>  
+  <!--==============================content================================-->
+  <section id="content">
+    <div class="header-block">
+      <nav class="nav-bg">  
+        <ul class="menu">
+          <li><a ng-href="#/home">Home</a></li>
+          <li><a ng-href="#/price">Stock Price</a></li>
+          <li class="current"><a ng-href="#/bbbfund/overview">BBB Fund</a></li>
+          <li><a ng-href="#/user/overview">Portfolio</a></li>
+          <li><a ng-href="#/contact">Contact</a></li>
+        </ul>
+      </nav> 
+    </div>
+    <ul class="minimenu2">
+      <li><a ng-href="#/login">Login</a></li>
+      <li><a ng-href="#/user/overview">Overview</a></li>
+      <li class="current"><a ng-href="#/user/chart">Chart</a></li>
+      <li><a ng-href="#/user/portfolio">Portfolio</a></li>
+    </ul>
+    <div class="container_24 top-1">
+      <div class="grid_5">
+        <div class="overview">
+          <table width="100%">
+            <thead>
+              <tr><th colspan="2" style="font-size: 24px;"><span>{{user.nickname}}</span><br><span style="font-size: 13px;">{{now}}</span></th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th class="th-left">Total</th>
+                <th class="th-right" id="bbb-asset">{{user.property.asset}} K</th>
+              </tr>
+              <tr>
+                <th class="th-left">Profit</th>
+                <th class="th-right" id="bbb-profit">{{user.dailyProfit}} K</th>
+              </tr>
+              <tr>
+                <th class="th-left">% Profit</th>
+                <th class="th-right" id="bbb-percent">{{user.dailyPercent}} %</th>
+                <!-- <th class="th-right percent" id="bbbpercent">%</th> -->
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="market">
+          <table class="table">
+            <thead><tr><th colspan="2" style=" font-size: 24px;"><span>VN Market</span></th></tr></thead>
+              <tr>
+                <th class="th-left">VN Index<br>{{vn.index}}</th>
+                <th class="th-right" id="vnindex">{{vn.percent}}<br>{{vn.change}}</th>
+                <th class="th-right percent" id="vnpercent">%<br></th>
+              </tr>
+            <tr>
+              <th class="th-left">VN30 Index<br>{{vn30.index}}</th>
+              <th class="th-right" id="vn30index">{{vn30.percent}}<br>{{vn30.change}}</th>
+              <th class="th-right percent" id="vn30percent">%<br></th>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="grid_19">
+        <div>
+          <canvas id="line" height="400" width="750"></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="container_24" style="">
+      <div class="grid_8 subsection">
+        <div class="subsection-title">
+          ASSET ALLOCATION
+        </div>
+        <div>
+          <canvas id="asset" height="250" width="300"></canvas>
+        </div>
+      </div>
+      <div class="grid_8 subsection">
+        <div class="subsection-title">
+          STOCK ALLOCATION
+        </div>
+        <div>
+          <canvas id="stock" height="250" width="300"></canvas>
+        </div>
+      </div>
+      <div class="grid_8 subsection">
+        <div class="subsection-title">
+          KEY STATS
+        </div>  
+        <div class="stats">
+          <table>
+            <tr class="stat-row2">
+              <th><span>Portfolio Value</span></th>
+              <th class="lose-value"><strong>{{user.property.asset}}</strong></th>
+            </tr>
+            <tr class="stat-row2">
+              <th><span>Annual Return</span></th>
+              <th class="lose-value"><strong>{{user.analyse.annualReturn}}</strong></th>
+            </tr>
+            <tr class="stat-row2">
+              <th><span>Price to Earnings (P/E)</span></th>
+              <th class="lose-value"><strong>{{user.analyse.pe}}</strong></th>
+            </tr>
+            <tr class="stat-row2">
+              <th><span>Price to Book (P/B)</span></th>
+              <th class="lose-value"><strong>{{user.analyse.pb}}</strong></th>
+            </tr>
+            <tr class="stat-row2">
+              <th><span>Return on Assets (ROA)</span></th>
+              <th class="lose-value"><strong>{{user.analyse.roa}}</strong></th>
+            </tr>
+            <tr class="stat-row2">
+              <th><span>Return on Equity (ROE)</span></th>
+              <th class="lose-value"><strong>{{user.analyse.roe}}</strong></th>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section> 
+<!--==============================footer=================================-->
+  <footer>
+    <p><strong>BBB INC</strong> <span>© 2015</span></p>
+    Website Template designed by <a href="http://www.templatemonster.com/" target="_blank" rel="nofollow" class="link">TemplateMonster.com</a>
+  </footer>
+
+</div>
