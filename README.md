@@ -1,8 +1,6 @@
-# URL Shortener
+# A website for create and manage portfolio in Viet Nam market, show graph to compare with VN Index - Frontend
 
-Written with Sails.js to be deployed to Heroku.
+- Used AngularJS for view-dependent controllers.
+- Used chart.js – the most popular Chart framework.
 
-[Article explaining how to deploy to
-Heroku](http://s.brentvatne.ca/sails-heroku)
-
-[Shortcut url to this repo, served by this app hosted on Heroku - s.brentvatne.ca/src](http://s.brentvatne.ca/src)
+## Visit my site for this project at: http://bbbinc.herokuapp.com/
