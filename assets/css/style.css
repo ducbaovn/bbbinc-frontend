@@ -217,7 +217,7 @@ canvas {margin-top: 10px;}
   margin: 0;
   padding: 25px 20px;
   text-align: center;
-  background: #68dff0;
+  background: #428BCA;
   border-radius: 5px 5px 0 0;
   color: #fff;
   font-size: 20px;
@@ -243,7 +243,7 @@ canvas {margin-top: 10px;}
 }
 .btn-theme {
   color: #fff;
-  background-color: #68dff0;
+  background-color: #428BCA;
   border-color: #48bcb4;
 }
 .login-social-link {

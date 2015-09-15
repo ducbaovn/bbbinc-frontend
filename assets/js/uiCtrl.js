@@ -11,10 +11,6 @@ angular.module('bbbfund', [
     'ngRoute','ngAnimate','ngCookies', 'ngSanitize'
 ])
     .config(['$routeProvider','$locationProvider','$httpProvider', function($routeProvider,$locationProvider,$httpProvider) {
-        //$httpProvider.defaults.useXDomain = true;
-        //Remove the header containing XMLHttpRequest used to identify ajax call
-        //that would prevent CORS from working
-        // delete $httpProvider.defaults.headers.common['X-Requested-With'];
         $httpProvider.defaults.withCredentials = true;
         $httpProvider.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 
@@ -714,24 +710,6 @@ angular.module('bbbfund', [
        };
     })
 
-    .directive('clock', ['dateFilter', '$timeout', function(dateFilter, $timeout){
-        return {
-            restrict: 'E',
-            scope: {
-                format: '@'
-            },
-            link: function(scope, element, attrs){
-                var updateTime = function(){
-                    var now = Date.now();
-                    element.html(dateFilter(now, scope.format));
-                    $timeout(updateTime, now % 1000);
-                };
-
-                updateTime();
-            }
-        };
-    }])
-
 /**
  *======================  SERVICES  ======================
  *========================================================
@@ -833,30 +811,6 @@ angular.module('bbbfund', [
                 config.showHeadAndLeft();
                 $("div .list-group a").removeClass("active");
                 $location.path('/login');
-
-                /*  var request_logout = actpostService.postdata(config.domainAPI + '/auth/logout', {},config.apiAuth());
-                 request_logout.success(function(success) {
-                 console.log('====================logout thanh cong=======================');
-                 mssboxService.Messeggbox('Đăng Xuất', 'Chào Admin, hẹn gặp lại!');
-                 config.localStage.remove('dataLogin');
-                 config.showHeadAndLeft();
-                 $location.path('/login');
-                 });
-                 request_logout.error(function(err, status) {
-                 console.log('err', status);
-                 console.log(err);
-                 switch (status)
-                 {
-                 case 400:
-                 mssboxService.Messeggbox("Thông Tin", "Lỗi Đăng Xuất!");
-                 break;
-                 default :
-                 break;
-                 }
-                 });*/
-            },
-            /* function check exit token  */
-            isLogged: function() {            
             },
 
             signup: function(scope){
@@ -1654,27 +1608,4 @@ angular.module('bbbfund', [
         $rootScope.nickNameMe = '';
         $rootScope.roleID = '';
         $rootScope.dataShow = {};
-        // var routespermission = ['/home'];  //route that require login
-        // $rootScope.$on('$routeChangeStart', function() {
-        //     if (routespermission.indexOf($location.path()) != -1)
-        //     {
-        //         if (authService.islogged())
-        //         {
-        //             console.log($location.path()) ;
-        //             console.log('------------------------vao den day routespermission.indexOf----------');
-        //             $location.path('/home');
-        //         }
-        //         else
-        //         {
-        //             console.log('------------------------vao den day routespermission.login----------');
-        //             $location.path('/login');
-        //         }
-        //     }
-        //     else{
-        //         console.log('=========================sssss========================');
-        //         $location.path($location.path());
-        //         console.log($location.path());
-        //         console.log($location.protocol());
-        //     }
-        // });
     });
