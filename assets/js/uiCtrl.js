@@ -98,23 +98,6 @@ angular.module('bbbfund', [
  * @controller CONTROLLER HOME
  * =====================================================
  */
-    .controller('homeCtrl', ['$scope', '$rootScope','$http', '$location', function($scope, $rootScope, $http, $location) {
-
-        // $scope.txt = 'Trang chủ';
-        // $scope.logout = function() {
-        //     authService.logout();
-        // };
-        // var listRoles = JSON.parse(config.localStage.get('listRoles'));
-        // $rootScope.dataShow = listRoles;
-        // $("div .list-group .cssSlideUp").removeClass("ng-hide");
-
-        // config.routinTestLogin(authService,$location,{defURL:'/login',useURL:'/home/list-items'});
-        // config.getInfoAdmin($rootScope);
-
-        // $('.scrollX > .scrollbarY, .scrollY > .scrollbarY').css({width:0});
-        // $('.scrollY.initialized > .viewport').css({'overflow-y': 'hidden'});
-    }])
-
     .controller('stockInfoCtrl', ['$scope', '$rootScope','$http', '$location', '$filter', 'stockService' , 'stockInfoService', function($scope, $rootScope, $http, $location, $filter, stockService, stockInfoService) {
         $scope.showFilter = false;
         $scope.txtFilter = 'Bộ lọc mã CK';
@@ -410,7 +393,7 @@ angular.module('bbbfund', [
       accountService.stockList($scope);
     }])
   
-    .controller('userCtrl', ['$scope', '$rootScope','$http', '$location', '$filter', 'userService', 'mssboxService', function($scope, $rootScope, $http, $location, $filter, userService, mssboxService) {
+    .controller('userCtrl', ['$scope', '$rootScope','$http', '$location', '$filter', 'userService', 'msgboxService', 'authService', function($scope, $rootScope, $http, $location, $filter, userService, msgboxService, authService) {
       $scope.user = {
           stock: {},
           property: {},
@@ -420,6 +403,23 @@ angular.module('bbbfund', [
       $scope.vn = {};
       $scope.vn30 = {};
       $scope.now = new Date().toDateString();
+      $scope.logout = function(){
+        msgboxService.MsgboxCustom('PORTFOLIO - LOGOUT', 'Are you sure to logout?', [
+          {
+            label: 'OK',
+            action: function(dialog) {
+              authService.logout();
+              dialog.close();
+            }
+          },
+          {
+            label: 'Cancel',
+            action: function(dialog) {
+              dialog.close();
+            }
+          }
+        ]);
+      };
 
       userService.property(function(properties){
         userService.index(function(indexs){
@@ -475,13 +475,13 @@ angular.module('bbbfund', [
             userService.stockChange($scope);
           }
           else {
-            mssboxService.MsgboxPortfolio('BBBFUND - PORTFOLIO', "You haven't had any portfolio. Please make one!!");
+            msgboxService.MsgboxPortfolio('BBBFUND - PORTFOLIO', "You haven't had any portfolio. Please make one!!");
           }
         });
       });
     }])
 
-    .controller('userChartCtrl', ['$scope', '$rootScope','$http', '$location', '$filter', 'userService' , 'userchartService', function($scope, $rootScope, $http, $location, $filter, userService, userchartService) {
+    .controller('userChartCtrl', ['$scope', '$rootScope','$http', '$location', '$filter', 'userService' , 'userchartService', 'authService', 'msgboxService', function($scope, $rootScope, $http, $location, $filter, userService, userchartService, authService, msgboxService) {
         $scope.user = {
           stock: [],
           property: {},
@@ -491,6 +491,23 @@ angular.module('bbbfund', [
         $scope.vn = {};
         $scope.vn30 = {};
         $scope.now = new Date().toDateString();
+        $scope.logout = function(){
+          msgboxService.MsgboxCustom('PORTFOLIO - LOGOUT', 'Are you sure to logout?', [
+            {
+              label: 'OK',
+              action: function(dialog) {
+                authService.logout();
+                dialog.close();
+              }
+            },
+            {
+              label: 'Cancel',
+              action: function(dialog) {
+                dialog.close();
+              }
+            }
+          ]);
+        };
         userService.property(function(properties){
           userService.index(function(indexs){
             if (properties[0]) {
@@ -545,13 +562,13 @@ angular.module('bbbfund', [
               userchartService.analyse($scope);
             }
             else {
-              mssboxService.MsgboxPortfolio('BBBFUND - PORTFOLIO', "You haven't had any portfolio. Please make one!!");
+              msgboxService.MsgboxPortfolio('BBBFUND - PORTFOLIO', "You haven't had any portfolio. Please make one!!");
             }
           });
         });
     }])
 
-    .controller('userAccountCtrl', ['$scope', '$rootScope','$http', '$location', '$filter', 'authService' , 'userAccountService', 'userService', function($scope, $rootScope, $http, $location, $filter, authService, userAccountService, userService) {
+    .controller('userAccountCtrl', ['$scope', '$rootScope','$http', '$location', '$filter', 'authService' , 'userAccountService', 'userService', 'msgboxService', function($scope, $rootScope, $http, $location, $filter, authService, userAccountService, userService, msgboxService) {
       $scope.user = {
         stock: {},
         property: {},
@@ -567,6 +584,23 @@ angular.module('bbbfund', [
       $scope.exchange = {};
       $scope.stocks = {};
       $scope.isExist = true;
+      $scope.logout = function(){
+        msgboxService.MsgboxCustom('PORTFOLIO - LOGOUT', 'Are you sure to logout?', [
+          {
+            label: 'OK',
+            action: function(dialog) {
+              authService.logout();
+              dialog.close();
+            }
+          },
+          {
+            label: 'Cancel',
+            action: function(dialog) {
+              dialog.close();
+            }
+          }
+        ]);
+      };
       $scope.filter = function(isShow, input) {
         if (isShow) {
           $scope.showFilter = true;
@@ -714,9 +748,9 @@ angular.module('bbbfund', [
  *======================  SERVICES  ======================
  *========================================================
  */
-    .factory('mssboxService', ['$window', function (window) {
+    .factory('msgboxService', ['$window', function (window) {
         return{
-            Messeggbox: function(title, messg) {
+            Msgbox: function(title, messg) {
                 BootstrapDialog.show({
                     title: title,
                     message: messg,
@@ -743,7 +777,7 @@ angular.module('bbbfund', [
                     }
                 });
             },
-            MesseggboxCustom: function(title, messg, button) {
+            MsgboxCustom: function(title, messg, button) {
                 BootstrapDialog.show({
                     title: title,
                     message: messg,
@@ -783,23 +817,23 @@ angular.module('bbbfund', [
         };
     }])
 
-    .factory('authService', function($http, $rootScope, $route, $templateCache, $location, actpostService, mssboxService) {
+    .factory('authService', function($http, $rootScope, $route, $templateCache, $location, actpostService, msgboxService) {
         return{
             login: function(scope) {
                 var data = {username: scope.user.name, password: scope.user.password};
                 var request_login = actpostService.postdata(config.domainAPI + '/auth/login', data, {});
                 request_login.success(function(success) {
                     config.localStage.set('userInfo', success);
-                    mssboxService.Messeggbox('PORTFOLIO - LOGIN', 'Login successful!!');    
+                    msgboxService.Msgbox('PORTFOLIO - LOGIN', 'Login successful!!');    
                     $location.path('/user/overview');
                 });
                 request_login.error(function(err, status) {
                     if(status==400)
-                        config.showError(err, mssboxService);
+                        config.showError(err, msgboxService);
                     else if(status>400 && status<=505)
-                        config.showErroDefault(err, mssboxService);
+                        config.showErroDefault(err, msgboxService);
                     else
-                        mssboxService.Messeggbox('BBB FUND', config.messDefault);
+                        msgboxService.Msgbox('BBB FUND', config.messDefault);
                 });
             },
             logout: function() {
@@ -818,23 +852,23 @@ angular.module('bbbfund', [
               var request_signup = actpostService.postdata(config.domainAPI + '/auth/register', data, {});
               request_signup.success(function(success) {
                 config.localStage.set('userInfo', success);
-                mssboxService.Messeggbox('PORTFOLIO - SIGNUP', 'Signup successful!!');
+                msgboxService.Msgbox('PORTFOLIO - SIGNUP', 'Signup successful!!');
                 $location.path('/user/overview');
               })
               request_signup.error(function(err, status) {
                 if(status == 400)
-                    config.showError(err, mssboxService);
+                    config.showError(err, msgboxService);
                 else if(status>400 && status<=505)
-                    config.showErroDefault(err, mssboxService);
+                    config.showErroDefault(err, msgboxService);
                 else
-                    mssboxService.Messeggbox('BBB FUND', config.messDefault);
+                    msgboxService.Msgbox('BBB FUND', config.messDefault);
               });
             }
         };
 
     })
 
-    .factory('stockService', function($http, $rootScope, $route, $templateCache, $location, actpostService, mssboxService) {
+    .factory('stockService', function($http, $rootScope, $route, $templateCache, $location, actpostService, msgboxService) {
         return {
             listMarket: function(scope){
                 var request_listMarket = actpostService.postdata(config.domainAPI + '/stock/listMarket', {}, {});
@@ -864,17 +898,17 @@ angular.module('bbbfund', [
                 });
                 request_listStock.error(function(err, status){
                     if(status==400)
-                        config.showError(err.code, mssboxService);
+                        config.showError(err.code, msgboxService);
                     else if(status>400 && status<=505)
-                        config.showErroDefault(err.code, mssboxService);
+                        config.showErroDefault(err.code, msgboxService);
                     else
-                        config.showErroConnect(mssboxService, $location);
+                        config.showErroConnect(msgboxService, $location);
                 })
             }
         }
     })
 
-    .factory('stockInfoService', function($http, $rootScope, $route, $templateCache, $location, actpostService, mssboxService, stockService) {
+    .factory('stockInfoService', function($http, $rootScope, $route, $templateCache, $location, actpostService, msgboxService, stockService) {
         return{
             newList: function(scope, page) {
                    /*  thực hiện lấy danh sách vật phẩm  dùng ngay */
@@ -891,17 +925,17 @@ angular.module('bbbfund', [
                 });
                 request_listStockInfo.error(function(err, status) {
                     if(status==400)
-                        config.showError(err.code, mssboxService);
+                        config.showError(err.code, msgboxService);
                     else if(status>400 && status<=505)
-                        config.showErroDefault(err.code, mssboxService);
+                        config.showErroDefault(err.code, msgboxService);
                     else
-                        config.showErroConnect(mssboxService, $location);
+                        config.showErroConnect(msgboxService, $location);
                 });
             },
         };
     })
 
-    .factory('bbbfundService', function($http, $rootScope, $route, $templateCache, $location, actpostService, mssboxService, stockService) {
+    .factory('bbbfundService', function($http, $rootScope, $route, $templateCache, $location, actpostService, msgboxService, stockService) {
         return{
             property: function(done) {
                    /*  thực hiện lấy danh sách vật phẩm  dùng ngay */
@@ -913,11 +947,11 @@ angular.module('bbbfund', [
                 });
                 request_propertyList.error(function(err, status) {
                     if(status==400)
-                        config.showError(err.code, mssboxService);
+                        config.showError(err.code, msgboxService);
                     else if(status>400 && status<=505)
-                        config.showErroDefault(err.code, mssboxService);
+                        config.showErroDefault(err.code, msgboxService);
                     else
-                        config.showErroConnect(mssboxService, $location);
+                        config.showErroConnect(msgboxService, $location);
                 });
             },
 
@@ -935,11 +969,11 @@ angular.module('bbbfund', [
                 });
                 request_indexList.error(function(err, status) {
                     if(status==400)
-                        config.showError(err.code, mssboxService);
+                        config.showError(err.code, msgboxService);
                     else if(status>400 && status<=505)
-                        config.showErroDefault(err.code, mssboxService);
+                        config.showErroDefault(err.code, msgboxService);
                     else
-                        config.showErroConnect(mssboxService, $location);
+                        config.showErroConnect(msgboxService, $location);
                 });
             },
 
@@ -982,11 +1016,11 @@ angular.module('bbbfund', [
               });
               request_indexChart.error(function(err, status) {
                 if(status==400)
-                    config.showError(err.code, mssboxService);
+                    config.showError(err.code, msgboxService);
                 else if(status>400 && status<=505)
-                    config.showErroDefault(err.code, mssboxService);
+                    config.showErroDefault(err.code, msgboxService);
                 else
-                    config.showErroConnect(mssboxService, $location);
+                    config.showErroConnect(msgboxService, $location);
               });
             },
 
@@ -1068,11 +1102,11 @@ angular.module('bbbfund', [
                 });
                 request_yearlyProperty.error(function(err, status) {
                     if(status==400)
-                        config.showError(err.code, mssboxService);
+                        config.showError(err.code, msgboxService);
                     else if(status>400 && status<=505)
-                        config.showErroDefault(err.code, mssboxService);
+                        config.showErroDefault(err.code, msgboxService);
                     else
-                        config.showErroConnect(mssboxService, $location);
+                        config.showErroConnect(msgboxService, $location);
                 });
             },
 
@@ -1087,17 +1121,17 @@ angular.module('bbbfund', [
                 });
                 request_stockChange.error(function(err, status) {
                     if(status==400)
-                        config.showError(err.code, mssboxService);
+                        config.showError(err.code, msgboxService);
                     else if(status>400 && status<=505)
-                        config.showErroDefault(err.code, mssboxService);
+                        config.showErroDefault(err.code, msgboxService);
                     else
-                        config.showErroConnect(mssboxService, $location);
+                        config.showErroConnect(msgboxService, $location);
                 });
             },
         };
     })
     
-    .factory('chartService', function($http, $rootScope, $route, $templateCache, $location, actpostService, mssboxService, bbbfundService) {
+    .factory('chartService', function($http, $rootScope, $route, $templateCache, $location, actpostService, msgboxService, bbbfundService) {
         return{
           asset: function(properties) {
             var data = [
@@ -1133,11 +1167,11 @@ angular.module('bbbfund', [
             });
             request_bbbstock.error(function(err, status) {
                 if(status==400)
-                    config.showError(err.code, mssboxService);
+                    config.showError(err.code, msgboxService);
                 else if(status>400 && status<=505)
-                    config.showErroDefault(err.code, mssboxService);
+                    config.showErroDefault(err.code, msgboxService);
                 else
-                    config.showErroConnect(mssboxService, $location);
+                    config.showErroConnect(msgboxService, $location);
             });
           },
 
@@ -1156,17 +1190,17 @@ angular.module('bbbfund', [
             })
             request_bbbAnalyse.error(function(err, status) {
                 if(status==400)
-                    config.showError(err.code, mssboxService);
+                    config.showError(err.code, msgboxService);
                 else if(status>400 && status<=505)
-                    config.showErroDefault(err.code, mssboxService);
+                    config.showErroDefault(err.code, msgboxService);
                 else
-                    config.showErroConnect(mssboxService, $location);
+                    config.showErroConnect(msgboxService, $location);
             });
           }
         };
     })
 
-    .factory('accountService', function($http, $rootScope, $route, $templateCache, $location, actpostService, mssboxService, bbbfundService) {
+    .factory('accountService', function($http, $rootScope, $route, $templateCache, $location, actpostService, msgboxService, bbbfundService) {
         return{
           bbbStock: function(scope) {
             var data = {};
@@ -1186,11 +1220,11 @@ angular.module('bbbfund', [
             });
             request_bbbstock.error(function(err, status) {
                 if(status==400)
-                    config.showError(err.code, mssboxService);
+                    config.showError(err.code, msgboxService);
                 else if(status>400 && status<=505)
-                    config.showErroDefault(err.code, mssboxService);
+                    config.showErroDefault(err.code, msgboxService);
                 else
-                    config.showErroConnect(mssboxService, $location);
+                    config.showErroConnect(msgboxService, $location);
             });
           },
 
@@ -1204,17 +1238,17 @@ angular.module('bbbfund', [
             });
             request_stockList.error(function(err, status){
                 if(status==400)
-                    config.showError(err.code, mssboxService);
+                    config.showError(err.code, msgboxService);
                 else if(status>400 && status<=505)
-                    config.showErroDefault(err.code, mssboxService);
+                    config.showErroDefault(err.code, msgboxService);
                 else
-                    config.showErroConnect(mssboxService, $location);
+                    config.showErroConnect(msgboxService, $location);
             })            
           }
         };
     })
 
-    .factory('userService', function($http, $rootScope, $route, $templateCache, $location, actpostService, mssboxService) {
+    .factory('userService', function($http, $rootScope, $route, $templateCache, $location, actpostService, msgboxService) {
         return{
             property: function(done) {
                    /*  thực hiện lấy danh sách vật phẩm  dùng ngay */
@@ -1226,11 +1260,11 @@ angular.module('bbbfund', [
                 });
                 request_propertyList.error(function(err, status) {
                     if(status==400)
-                        config.showError(err.code, mssboxService);
+                        config.showError(err.code, msgboxService);
                     else if(status>400 && status<=505)
-                        config.showErroDefault(err.code, mssboxService);
+                        config.showErroDefault(err.code, msgboxService);
                     else
-                        config.showErroConnect(mssboxService, $location);
+                        config.showErroConnect(msgboxService, $location);
                 });
             },
 
@@ -1248,11 +1282,11 @@ angular.module('bbbfund', [
                 });
                 request_indexList.error(function(err, status) {
                     if(status==400)
-                        config.showError(err.code, mssboxService);
+                        config.showError(err.code, msgboxService);
                     else if(status>400 && status<=505)
-                        config.showErroDefault(err.code, mssboxService);
+                        config.showErroDefault(err.code, msgboxService);
                     else
-                        config.showErroConnect(mssboxService, $location);
+                        config.showErroConnect(msgboxService, $location);
                 });
             },
 
@@ -1295,11 +1329,11 @@ angular.module('bbbfund', [
               });
               request_indexChart.error(function(err, status) {
                 if(status==400)
-                    config.showError(err.code, mssboxService);
+                    config.showError(err.code, msgboxService);
                 else if(status>400 && status<=505)
-                    config.showErroDefault(err.code, mssboxService);
+                    config.showErroDefault(err.code, msgboxService);
                 else
-                    config.showErroConnect(mssboxService, $location);
+                    config.showErroConnect(msgboxService, $location);
               });
             },
 
@@ -1381,11 +1415,11 @@ angular.module('bbbfund', [
                 });
                 request_yearlyProperty.error(function(err, status) {
                     if(status==400)
-                        config.showError(err.code, mssboxService);
+                        config.showError(err.code, msgboxService);
                     else if(status>400 && status<=505)
-                        config.showErroDefault(err.code, mssboxService);
+                        config.showErroDefault(err.code, msgboxService);
                     else
-                        config.showErroConnect(mssboxService, $location);
+                        config.showErroConnect(msgboxService, $location);
                 });
             },
 
@@ -1400,17 +1434,17 @@ angular.module('bbbfund', [
                 });
                 request_stockChange.error(function(err, status) {
                     if(status==400)
-                        config.showError(err.code, mssboxService);
+                        config.showError(err.code, msgboxService);
                     else if(status>400 && status<=505)
-                        config.showErroDefault(err.code, mssboxService);
+                        config.showErroDefault(err.code, msgboxService);
                     else
-                        config.showErroConnect(mssboxService, $location);
+                        config.showErroConnect(msgboxService, $location);
                 });
             },
         };
     })
     
-    .factory('userchartService', function($http, $rootScope, $route, $templateCache, $location, actpostService, mssboxService, userService) {
+    .factory('userchartService', function($http, $rootScope, $route, $templateCache, $location, actpostService, msgboxService, userService) {
         return{
           asset: function(properties) {
             var data = [
@@ -1446,11 +1480,11 @@ angular.module('bbbfund', [
             });
             request_userstock.error(function(err, status) {
                 if(status==400)
-                    config.showError(err.code, mssboxService);
+                    config.showError(err.code, msgboxService);
                 else if(status>400 && status<=505)
-                    config.showErroDefault(err.code, mssboxService);
+                    config.showErroDefault(err.code, msgboxService);
                 else
-                    config.showErroConnect(mssboxService, $location);
+                    config.showErroConnect(msgboxService, $location);
             });
           },
 
@@ -1469,17 +1503,17 @@ angular.module('bbbfund', [
             })
             request_userAnalyse.error(function(err, status) {
                 if(status==400)
-                    config.showError(err.code, mssboxService);
+                    config.showError(err.code, msgboxService);
                 else if(status>400 && status<=505)
-                    config.showErroDefault(err.code, mssboxService);
+                    config.showErroDefault(err.code, msgboxService);
                 else
-                    config.showErroConnect(mssboxService, $location);
+                    config.showErroConnect(msgboxService, $location);
             });
           }
         };
     })
 
-    .factory('userAccountService', function($http, $rootScope, $route, $templateCache, $location, actpostService, mssboxService, userService) {
+    .factory('userAccountService', function($http, $rootScope, $route, $templateCache, $location, actpostService, msgboxService, userService) {
         return{
           userStock: function(scope) {
             var data = {};
@@ -1499,11 +1533,11 @@ angular.module('bbbfund', [
             });
             request_userstock.error(function(err, status) {
                 if(status==400)
-                    config.showError(err.code, mssboxService);
+                    config.showError(err.code, msgboxService);
                 else if(status>400 && status<=505)
-                    config.showErroDefault(err.code, mssboxService);
+                    config.showErroDefault(err.code, msgboxService);
                 else
-                    config.showErroConnect(mssboxService, $location);
+                    config.showErroConnect(msgboxService, $location);
             });
           },
 
@@ -1516,16 +1550,16 @@ angular.module('bbbfund', [
             data.stockList = scope.listCreate;
             var request_createPortfolio = actpostService.postdata(config.domainAPI + '/user/exchange/create', data, {});
             request_createPortfolio.success(function(success) {
-              mssboxService.Messeggbox('BBBFUND - PORTFOLIO', 'Successful create!!');
+              msgboxService.Msgbox('BBBFUND - PORTFOLIO', 'Successful create!!');
               $location.path('/user/portfolio');
             });
             request_createPortfolio.error(function(err, status) {
                 if(status==400)
-                    config.showError(err.code, mssboxService);
+                    config.showError(err.code, msgboxService);
                 else if(status>400 && status<=505)
-                    config.showErroDefault(err.code, mssboxService);
+                    config.showErroDefault(err.code, msgboxService);
                 else
-                    config.showErroConnect(mssboxService, $location);
+                    config.showErroConnect(msgboxService, $location);
             });
           },
 
@@ -1535,16 +1569,16 @@ angular.module('bbbfund', [
             }
             var request_stockExchange = actpostService.postdata(config.domainAPI + '/user/exchange/stock', {exchange: data}, {});
             request_stockExchange.success(function(success) {
-              mssboxService.Messeggbox('BBBFUND - PORTFOLIO', 'Successful update!!');
+              msgboxService.Msgbox('BBBFUND - PORTFOLIO', 'Successful update!!');
               $location.path('/user/portfolio');
             });
             request_stockExchange.error(function(err, status) {
                 if(status==400)
-                    config.showError(err.code, mssboxService);
+                    config.showError(err.code, msgboxService);
                 else if(status>400 && status<=505)
-                    config.showErroDefault(err.code, mssboxService);
+                    config.showErroDefault(err.code, msgboxService);
                 else
-                    config.showErroConnect(mssboxService, $location);
+                    config.showErroConnect(msgboxService, $location);
             });
           },
 
@@ -1554,32 +1588,32 @@ angular.module('bbbfund', [
             }
             var request_payout = actpostService.postdata(config.domainAPI + '/user/exchange/payout', {exchange: data}, {});
             request_payout.success(function(success) {
-              mssboxService.Messeggbox('BBBFUND - PORTFOLIO', 'Updated successful!!');
+              msgboxService.Msgbox('BBBFUND - PORTFOLIO', 'Updated successful!!');
               $location.path('/user/portfolio');
             });
             request_payout.error(function(err, status) {
                 if(status==400)
-                    config.showError(err.code, mssboxService);
+                    config.showError(err.code, msgboxService);
                 else if(status>400 && status<=505)
-                    config.showErroDefault(err.code, mssboxService);
+                    config.showErroDefault(err.code, msgboxService);
                 else
-                    config.showErroConnect(mssboxService, $location);
+                    config.showErroConnect(msgboxService, $location);
             });
           },
 
           cash: function(cash) {
             var request_cash = actpostService.postdata(config.domainAPI + '/user/exchange/cash', {cash: cash}, {});
             request_cash.success(function(success) {
-              mssboxService.Messeggbox('BBBFUND - PORTFOLIO', 'Updated successful!!');
+              msgboxService.Msgbox('BBBFUND - PORTFOLIO', 'Updated successful!!');
               $location.path('/user/portfolio');
             });
             request_cash.error(function(err, status) {
                 if(status==400)
-                    config.showError(err.code, mssboxService);
+                    config.showError(err.code, msgboxService);
                 else if(status>400 && status<=505)
-                    config.showErroDefault(err.code, mssboxService);
+                    config.showErroDefault(err.code, msgboxService);
                 else
-                    config.showErroConnect(mssboxService, $location);
+                    config.showErroConnect(msgboxService, $location);
             });
           },
 
@@ -1593,11 +1627,11 @@ angular.module('bbbfund', [
             });
             request_stockList.error(function(err, status){
                 if(status==400)
-                    config.showError(err.code, mssboxService);
+                    config.showError(err.code, msgboxService);
                 else if(status>400 && status<=505)
-                    config.showErroDefault(err.code, mssboxService);
+                    config.showErroDefault(err.code, msgboxService);
                 else
-                    config.showErroConnect(mssboxService, $location);
+                    config.showErroConnect(msgboxService, $location);
             })            
           }
 

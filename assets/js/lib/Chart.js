@@ -997,7 +997,6 @@
 							};
 						}).call(this, dataIndex);
 					
-					console.log(tooltipColors);
 					new Chart.MultiTooltip({
 						x: medianPosition.x,
 						y: medianPosition.y,

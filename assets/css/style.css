@@ -288,11 +288,11 @@ canvas {margin-top: 10px;}
   color: white;
 }
 ul.minimenu2 {margin-left: 5px; background-color: azure; height: 45px; display:inline-block; padding: 0px 175px 0px 175px}
-ul.minimenu2 li {float:left; display:block; width:150px; text-align:center; text-transform:uppercase;}
+ul.minimenu2 li {float:left; display:block; width:120px; text-align:center; text-transform:uppercase;}
 ul.minimenu2 li a { font-family:"Trebuchet MS", Arial, Helvetica, sans-serif; font-size:13px; line-height:17px; color:#86a5a3; display:block; border-left:#c2dcdb 1px solid; padding:16px 0 21px 0; }
 ul.minimenu2 li:first-child a {border-left:transparent 1px solid;}
-ul.minimenu2 li:hover, ul.minimenu li.current {background:#839e9c; height: 40px}
-ul.minimenu2 li a:hover , ul.minimenu li.current a {color:#fff;}
+ul.minimenu2 li:hover, ul.minimenu2 li.current {background:#839e9c; height: 40px}
+ul.minimenu2 li a:hover , ul.minimenu2 li.current a {color:#fff;}
 .mask1 {
   background: rgba(0,0,0,0.8);
   position: fixed;
